@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "85db4aea-f1b8-45ec-813f-67ab9e73f09f",
+		"name": "Sess-8, Data Driven",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29508877",
+		"_collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-85db4aea-f1b8-45ec-813f-67ab9e73f09f?action=share&source=collection_link&creator=29508877"
+	},
+	"item": [
+		{
+			"name": "Post- Book Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"test expected vs actual response\",function(){\r",
+							"    \r",
+							"    var resp = pm.response.json();\r",
+							"\r",
+							"    pm.expect(resp.id).to.eql(pm.iterationData.get(\"id\"));\r",
+							"    pm.expect(resp.description).to.eql(pm.iterationData.get(\"description\"));\r",
+							"    pm.expect(resp.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+							"    pm.expect(resp.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+							"    pm.expect(resp.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+							"\r",
+							"// Note- How to fetch and test the random title whether correct or not.\r",
+							"\r",
+							"const rawbody = pm.request.body.raw;\r",
+							"//postman understand only js for the scripting so we have to convert the raw body to java scriptingobject to fetch the title from the body.\r",
+							"const jsbody = JSON.parse(rawbody);\r",
+							"//fetch the title from the js body.\r",
+							"const title = jsbody.title;\r",
+							"console.log(\"my expected title is:\" + title);\r",
+							"pm.expect(resp.title).to.eql(title);\r",
+							"\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"const reponsefor_put = pm.response.json();\r",
+							"const id_for_put =reponsefor_put.id;\r",
+							"console.log(\"id for put is:\" + id_for_put);\r",
+							"\r",
+							"pm.variables.set(\"bookID\", id_for_put);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; v=1.0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n// id, description,pagecount,excerpt,publishdate is coming/fetching from CSV file \r\n\r\n{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": {{pageCount}},\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/Books",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Excerpt is updated\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.excerpt).to.eql(pm.iterationData.get(\"newexcerpt\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; v=1.0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n    \"excerpt\": \"{{newexcerpt}}\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/Books/{{bookID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Books",
+						"{{bookID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
