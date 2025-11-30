@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "583167fd-5fda-4056-9b30-7c09219b7168",
+		"name": "11-FetchURL'sFromResponseuseitforAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29508877",
+		"_collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-583167fd-5fda-4056-9b30-7c09219b7168?action=share&source=collection_link&creator=29508877"
+	},
+	"item": [
+		{
+			"name": "9-New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let reqResponde = pm.response.json();\r",
+							"let respURLS = reqResponde.json.urls;\r",
+							"console.log(respURLS);\r",
+							"\r",
+							"// Here object is a new interface helpful for fetching key and value formats  \r",
+							"\r",
+							"Object.keys(respURLS).forEach(e => {\r",
+							"\r",
+							"pm.test(\"check urls test\", function (){\r",
+							"\r",
+							"\r",
+							"pm.sendRequest({\r",
+							"\r",
+							"  method: \"GET\",\r",
+							"  url: respURLS[e]\r",
+							"\r",
+							"\r",
+							"},\r",
+							"  function (error, response){\r",
+							"    if (error){\r",
+							"        console.log(error)\r",
+							"    }\r",
+							"    else{\r",
+							"\r",
+							"        console.log(response.code);\r",
+							"        console.log(response.text());\r",
+							"\r",
+							"    }\r",
+							"  }\r",
+							"   \r",
+							")\r",
+							"\r",
+							"})\r",
+							"\r",
+							"}\r",
+							")\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productname\" : \"mackbookproID\",\r\n    \"urls\": {\r\n        \"u1\":\"http://gorest.co.in/public/v2/users\",\r\n        \"u2\":\"http://gorest.co.in/public/v2/posts\",\r\n        \"u3\" :\"http://gorest.co.in/public/v2/comments\",\r\n        \"u4\" :\"http://gorest.co.in/public/v2/todos\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://httpbin.org/post",
+					"protocol": "http",
+					"host": [
+						"httpbin",
+						"org"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
