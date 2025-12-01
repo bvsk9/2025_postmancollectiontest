@@ -18,7 +18,7 @@ pipeline {
             steps {
                 // Run build commands
                 
-                 'docker pull bvskrishnadocker/fetchurls:1.0'
+                bat 'docker pull bvskrishnadocker/fetchurls:1.0'
                  
             }
         }
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 // Run build commands
                 
-                 'docker run -v ${pwd}/newman:/app/newman bvskrishnadocker/fetchurls:1.0'
+                bat 'docker run -v ${pwd}/newman:/app/newman bvskrishnadocker/fetchurls:1.0'
                  
             }
         }
