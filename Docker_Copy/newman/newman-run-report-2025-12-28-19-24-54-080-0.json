@@ -1,0 +1,4911 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+      "exporter_id": "29508877",
+      "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+    },
+    "item": [
+      {
+        "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+        "name": "BookCreation",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "v1",
+              "Books"
+            ],
+            "host": [
+              "{{baseURL}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "accept",
+              "value": "*/*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; v=1.0"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+              "type": "text/javascript",
+              "packages": {},
+              "exec": [
+                "pm.test(\"check the status code\",function(){\r",
+                "    pm.response.to.have.status(200);\r",
+                "})\r",
+                "\r",
+                "// check the response body and ieterationData variable\r",
+                "\r",
+                "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                "    \r",
+                "    const respbody = pm.response.json();\r",
+                "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                "\r",
+                "\r",
+                "    // check the request body data and response body data should be same\r",
+                "\r",
+                "    const rawbody = pm.request.body.raw;\r",
+                "//here im parsing it \r",
+                "const requestbody = JSON.parse(rawbody);\r",
+                "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                "\r",
+                "console.log(\"here is the title\", reqbodytitle);\r",
+                "\r",
+                "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                "\r",
+                "\r",
+                "\r",
+                "});\r",
+                "\r",
+                "\r",
+                "// here im creating the variables (local variables)\r",
+                "\r",
+                "const responsebody = pm.response.json();\r",
+                "const bookID = responsebody.id;\r",
+                "console.log(\"my book id id\", bookID);\r",
+                "pm.variables.set(\"Book_ID\",bookID)"
+              ],
+              "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+        "name": "PUT_",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "v1",
+              "Books",
+              "{{Book_ID}}"
+            ],
+            "host": [
+              "{{baseURL}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          },
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "type": "string",
+                "value": "",
+                "key": "token"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+              "type": "text/javascript",
+              "packages": {},
+              "exec": [
+                "pm.test(\"Status code is 200\", function () {\r",
+                "    pm.response.to.have.status(200);\r",
+                "});\r",
+                "\r",
+                "pm.test(\"check excerpt should be updated\", function(){\r",
+                "    var responseJson = pm.response.json();\r",
+                "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                "})"
+              ],
+              "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+            }
+          }
+        ]
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+      "name": "8_Practice_dataDriven",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_at": "2025-12-28T18:46:03.970Z",
+      "postman_exported_using": "Postman/11.77.2"
+    },
+    "id": "019030ba-d3ec-4262-8562-8b17cc857e1e",
+    "name": "FakerEnvi",
+    "values": [
+      {
+        "type": "any",
+        "value": "",
+        "key": "baseURL"
+      }
+    ]
+  },
+  "globals": {
+    "id": "4acf2559-b6fc-4d6f-b44e-2c68bc514001",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 4,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 4,
+        "pending": 0,
+        "failed": 2
+      },
+      "prerequests": {
+        "total": 4,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 4,
+        "pending": 0,
+        "failed": 4
+      },
+      "tests": {
+        "total": 4,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 8,
+        "pending": 0,
+        "failed": 8
+      },
+      "testScripts": {
+        "total": 4,
+        "pending": 0,
+        "failed": 2
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 0,
+      "responseMin": 0,
+      "responseMax": 0,
+      "responseSd": 0,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1766949893876,
+      "completed": 1766949893972
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 2,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "00a5c792-8292-48ff-9af7-8b26b84ee2e4",
+          "httpRequestId": "20774129-ecf9-4233-b0a5-c4c17dc26cd0"
+        },
+        "item": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "path": [
+              "v1",
+              "Books"
+            ],
+            "host": [
+              "api"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "accept",
+              "value": "*/*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; v=1.0"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "0b63323d-8f3a-460e-91d9-38409061d7ee",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"id\": 202,\r\n    \"title\": \"Central Usability Developer\",\r\n    \"description\": \"skdescription1\",\r\n    \"pageCount\": \"10\",\r\n    \"excerpt\": \"skexcerpt1\",\r\n    \"publishDate\": \"2025-12-15T17:41:43.217Z\"\r\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+        "requestError": {},
+        "assertions": [
+          {
+            "assertion": "check the status code",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 0,
+              "test": "check the status code",
+              "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+              "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:1)"
+            }
+          },
+          {
+            "assertion": "check the response and ieterationData should have same data",
+            "skipped": false,
+            "error": {
+              "name": "JSONError",
+              "index": 1,
+              "test": "check the response and ieterationData should have same data",
+              "message": "\"undefined\" is not valid JSON",
+              "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:1)"
+            }
+          }
+        ],
+        "testScript": [
+          {
+            "error": {
+              "type": "Error",
+              "name": "JSONError",
+              "message": "\"undefined\" is not valid JSON",
+              "checksum": "4db15f4d7d3ae61b799898db95379b99",
+              "id": "7e192092-4b3d-4c33-96ac-f26fff5feac4",
+              "timestamp": 1766949893918,
+              "stacktrace": []
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "e2396511-73a4-4326-b6b5-f93e0f8b490d",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "439a01d5-640e-408b-bd4a-17038d10e0a5"
+        },
+        "item": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books",
+                "{{Book_ID}}"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ],
+                "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "path": [
+              "v1",
+              "Books",
+              "%7B%7BBook_ID%7D%7D"
+            ],
+            "host": [
+              "api"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "system": true
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "481b90f6-d24f-48fe-973a-f774c0602c62",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"excerpt\":\"updated_excerpt202\"\r\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          },
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "type": "string",
+                "value": "",
+                "key": "token"
+              }
+            ]
+          }
+        },
+        "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+        "requestError": {},
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 0,
+              "test": "Status code is 200",
+              "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+              "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:2)"
+            }
+          },
+          {
+            "assertion": "check excerpt should be updated",
+            "skipped": false,
+            "error": {
+              "name": "JSONError",
+              "index": 1,
+              "test": "check excerpt should be updated",
+              "message": "\"undefined\" is not valid JSON",
+              "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:2)"
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a457042b-8055-45e6-91c0-5343fac402a6",
+          "length": 2,
+          "cycles": 2,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9f89ecf9-eeaf-468a-a2ce-0af46b397001"
+        },
+        "item": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "path": [
+              "v1",
+              "Books"
+            ],
+            "host": [
+              "api"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "accept",
+              "value": "*/*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; v=1.0"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "6604f01a-3cfe-4d23-aa96-dd8fcb94c6ff",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"id\": 203,\r\n    \"title\": \"Lead Security Officer\",\r\n    \"description\": \"skdescription2\",\r\n    \"pageCount\": \"10\",\r\n    \"excerpt\": \"skexcerpt2\",\r\n    \"publishDate\": \"2025-12-15T17:41:43.217Z\"\r\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+        "requestError": {},
+        "assertions": [
+          {
+            "assertion": "check the status code",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 0,
+              "test": "check the status code",
+              "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+              "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:1)"
+            }
+          },
+          {
+            "assertion": "check the response and ieterationData should have same data",
+            "skipped": false,
+            "error": {
+              "name": "JSONError",
+              "index": 1,
+              "test": "check the response and ieterationData should have same data",
+              "message": "\"undefined\" is not valid JSON",
+              "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:1)"
+            }
+          }
+        ],
+        "testScript": [
+          {
+            "error": {
+              "type": "Error",
+              "name": "JSONError",
+              "message": "\"undefined\" is not valid JSON",
+              "checksum": "4db15f4d7d3ae61b799898db95379b99",
+              "id": "dd349df9-f6b9-4ab9-a2a2-c038d7dda252",
+              "timestamp": 1766949893954,
+              "stacktrace": []
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "e2659778-7220-4581-82bf-ea14f6ee675f",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 1,
+          "httpRequestId": "598f118a-273b-42a9-969a-5a24f2577f28"
+        },
+        "item": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books",
+                "{{Book_ID}}"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ],
+                "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "path": [
+              "v1",
+              "Books",
+              "%7B%7BBook_ID%7D%7D"
+            ],
+            "host": [
+              "api"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "system": true
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "857c7b4b-d7d5-47dd-bad2-a3891d87e37d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"excerpt\":\"updated_excerpt203\"\r\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          },
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "type": "string",
+                "value": "",
+                "key": "token"
+              }
+            ]
+          }
+        },
+        "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+        "requestError": {},
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 0,
+              "test": "Status code is 200",
+              "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+              "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:2)"
+            }
+          },
+          {
+            "assertion": "check excerpt should be updated",
+            "skipped": false,
+            "error": {
+              "name": "JSONError",
+              "index": 1,
+              "test": "check excerpt should be updated",
+              "message": "\"undefined\" is not valid JSON",
+              "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:2)"
+            }
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 0
+    },
+    "failures": [
+      {
+        "error": {
+          "name": "Error",
+          "message": "Invalid URI \"http:///api/v1/Books\"",
+          "stack": "Error: Invalid URI \"http:///api/v1/Books\"\n    at Request.init (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:399:31)\n    at new Request (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:226:8)\n    at request (/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js:46:10)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:79:23\n    at wrapper (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:273:20)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5797:24)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setCertificate (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:50:20)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:74:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5799:13)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setProxy (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:31:9)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:71:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at Object.waterfall (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5802:9)",
+          "checksum": "c5910f34c5d2be0800281c6dea7743ab",
+          "id": "93e434d1-9e13-4107-8d9b-28389cdee674",
+          "timestamp": 1766949893890,
+          "stacktrace": [
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 399,
+              "functionName": "Request.init",
+              "typeName": "Request",
+              "methodName": "init",
+              "columnNumber": 31,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 226,
+              "functionName": "new Request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 8,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js",
+              "lineNumber": 46,
+              "functionName": "request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 10,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 79,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 23,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 273,
+              "functionName": "wrapper",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5797,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 24,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 50,
+              "functionName": "setCertificate",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 74,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5799,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 31,
+              "functionName": "setProxy",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 9,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 71,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5802,
+              "functionName": "Object.waterfall",
+              "typeName": "Object",
+              "methodName": "waterfall",
+              "columnNumber": 9,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "path": [
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "api"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "0b63323d-8f3a-460e-91d9-38409061d7ee",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": 202,\r\n    \"title\": \"Central Usability Developer\",\r\n    \"description\": \"skdescription1\",\r\n    \"pageCount\": \"10\",\r\n    \"excerpt\": \"skexcerpt1\",\r\n    \"publishDate\": \"2025-12-15T17:41:43.217Z\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ]
+              }
+            }
+          ]
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 2,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "00a5c792-8292-48ff-9af7-8b26b84ee2e4",
+          "httpRequestId": "20774129-ecf9-4233-b0a5-c4c17dc26cd0"
+        }
+      },
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 0,
+          "test": "check the status code",
+          "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+          "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:1)",
+          "checksum": "f8bccda334649c84ccd7491b85ae590d",
+          "id": "65abd0f1-fc72-4bd1-855b-16b4b5fbdc0b",
+          "timestamp": 1766949893914,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 1,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 1,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:0 in test-script",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 2,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "00a5c792-8292-48ff-9af7-8b26b84ee2e4",
+          "httpRequestId": "20774129-ecf9-4233-b0a5-c4c17dc26cd0",
+          "scriptId": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+          "execution": "43276f24-1204-405f-a649-4ee17a2ec437"
+        }
+      },
+      {
+        "error": {
+          "name": "JSONError",
+          "index": 1,
+          "test": "check the response and ieterationData should have same data",
+          "message": "\"undefined\" is not valid JSON",
+          "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:1)",
+          "checksum": "a88a292d1684e68a6db4cc15841361f7",
+          "id": "e1222c23-816e-40ad-9bcf-a5b5a250b87f",
+          "timestamp": 1766949893915,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 2,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 1,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:1 in test-script",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 2,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "00a5c792-8292-48ff-9af7-8b26b84ee2e4",
+          "httpRequestId": "20774129-ecf9-4233-b0a5-c4c17dc26cd0",
+          "scriptId": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+          "execution": "43276f24-1204-405f-a649-4ee17a2ec437"
+        }
+      },
+      {
+        "error": {
+          "type": "Error",
+          "name": "JSONError",
+          "message": "\"undefined\" is not valid JSON",
+          "checksum": "4db15f4d7d3ae61b799898db95379b99",
+          "id": "7e192092-4b3d-4c33-96ac-f26fff5feac4",
+          "timestamp": 1766949893918,
+          "stacktrace": []
+        },
+        "at": "test-script",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 2,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "00a5c792-8292-48ff-9af7-8b26b84ee2e4",
+          "httpRequestId": "20774129-ecf9-4233-b0a5-c4c17dc26cd0",
+          "scriptId": "16174b24-62c9-4bd1-9fef-f445695d49e6"
+        }
+      },
+      {
+        "error": {
+          "name": "Error",
+          "message": "Invalid URI \"http:///api/v1/Books/%7B%7BBook_ID%7D%7D\"",
+          "stack": "Error: Invalid URI \"http:///api/v1/Books/%7B%7BBook_ID%7D%7D\"\n    at Request.init (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:399:31)\n    at new Request (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:226:8)\n    at request (/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js:46:10)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:79:23\n    at wrapper (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:273:20)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5797:24)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setCertificate (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:50:20)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:74:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5799:13)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setProxy (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:31:9)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:71:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at Object.waterfall (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5802:9)",
+          "checksum": "d098983a74df8cf5edf8f6e7da05fc01",
+          "id": "9121ab92-d9d0-47ba-aeb5-e644f7f319a5",
+          "timestamp": 1766949893929,
+          "stacktrace": [
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 399,
+              "functionName": "Request.init",
+              "typeName": "Request",
+              "methodName": "init",
+              "columnNumber": 31,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 226,
+              "functionName": "new Request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 8,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js",
+              "lineNumber": 46,
+              "functionName": "request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 10,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 79,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 23,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 273,
+              "functionName": "wrapper",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5797,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 24,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 50,
+              "functionName": "setCertificate",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 74,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5799,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 31,
+              "functionName": "setProxy",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 9,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 71,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5802,
+              "functionName": "Object.waterfall",
+              "typeName": "Object",
+              "methodName": "waterfall",
+              "columnNumber": 9,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "path": [
+                "v1",
+                "Books",
+                "%7B%7BBook_ID%7D%7D"
+              ],
+              "host": [
+                "api"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "system": true
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "481b90f6-d24f-48fe-973a-f774c0602c62",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"updated_excerpt202\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ]
+              }
+            }
+          ]
+        },
+        "cursor": {
+          "ref": "e2396511-73a4-4326-b6b5-f93e0f8b490d",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "439a01d5-640e-408b-bd4a-17038d10e0a5"
+        }
+      },
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 0,
+          "test": "Status code is 200",
+          "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+          "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:2)",
+          "checksum": "169020131664477cec85b1c00a6464f6",
+          "id": "bd87884e-fcb4-48be-860d-c9f6e10b4015",
+          "timestamp": 1766949893935,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 1,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 2,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:0 in test-script",
+        "source": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books",
+                "{{Book_ID}}"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ],
+                "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "e2396511-73a4-4326-b6b5-f93e0f8b490d",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "439a01d5-640e-408b-bd4a-17038d10e0a5",
+          "scriptId": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+          "execution": "2acdb183-3f13-45f3-bfed-3b2502902596"
+        }
+      },
+      {
+        "error": {
+          "name": "JSONError",
+          "index": 1,
+          "test": "check excerpt should be updated",
+          "message": "\"undefined\" is not valid JSON",
+          "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:2)",
+          "checksum": "14958418ec480fedd0fb2ef151af8bba",
+          "id": "fa39e9f4-88a1-488e-a993-2dd50ab7d1d1",
+          "timestamp": 1766949893935,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 2,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 2,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:1 in test-script",
+        "source": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books",
+                "{{Book_ID}}"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ],
+                "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "e2396511-73a4-4326-b6b5-f93e0f8b490d",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "439a01d5-640e-408b-bd4a-17038d10e0a5",
+          "scriptId": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+          "execution": "2acdb183-3f13-45f3-bfed-3b2502902596"
+        }
+      },
+      {
+        "error": {
+          "name": "Error",
+          "message": "Invalid URI \"http:///api/v1/Books\"",
+          "stack": "Error: Invalid URI \"http:///api/v1/Books\"\n    at Request.init (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:399:31)\n    at new Request (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:226:8)\n    at request (/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js:46:10)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:79:23\n    at wrapper (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:273:20)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5797:24)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setCertificate (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:50:20)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:74:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5799:13)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setProxy (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:31:9)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:71:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at Object.waterfall (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5802:9)",
+          "checksum": "c5910f34c5d2be0800281c6dea7743ab",
+          "id": "50be0b37-e81f-4e93-aa4a-ea1ba96c5e32",
+          "timestamp": 1766949893947,
+          "stacktrace": [
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 399,
+              "functionName": "Request.init",
+              "typeName": "Request",
+              "methodName": "init",
+              "columnNumber": 31,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 226,
+              "functionName": "new Request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 8,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js",
+              "lineNumber": 46,
+              "functionName": "request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 10,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 79,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 23,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 273,
+              "functionName": "wrapper",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5797,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 24,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 50,
+              "functionName": "setCertificate",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 74,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5799,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 31,
+              "functionName": "setProxy",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 9,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 71,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5802,
+              "functionName": "Object.waterfall",
+              "typeName": "Object",
+              "methodName": "waterfall",
+              "columnNumber": 9,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "path": [
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "api"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "6604f01a-3cfe-4d23-aa96-dd8fcb94c6ff",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": 203,\r\n    \"title\": \"Lead Security Officer\",\r\n    \"description\": \"skdescription2\",\r\n    \"pageCount\": \"10\",\r\n    \"excerpt\": \"skexcerpt2\",\r\n    \"publishDate\": \"2025-12-15T17:41:43.217Z\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ]
+              }
+            }
+          ]
+        },
+        "cursor": {
+          "ref": "a457042b-8055-45e6-91c0-5343fac402a6",
+          "length": 2,
+          "cycles": 2,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9f89ecf9-eeaf-468a-a2ce-0af46b397001"
+        }
+      },
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 0,
+          "test": "check the status code",
+          "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+          "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:1)",
+          "checksum": "f8bccda334649c84ccd7491b85ae590d",
+          "id": "659f1409-c0ce-4810-9b78-a59268b6f5bb",
+          "timestamp": 1766949893952,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 1,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 1,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:0 in test-script",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "a457042b-8055-45e6-91c0-5343fac402a6",
+          "length": 2,
+          "cycles": 2,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9f89ecf9-eeaf-468a-a2ce-0af46b397001",
+          "scriptId": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+          "execution": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+        }
+      },
+      {
+        "error": {
+          "name": "JSONError",
+          "index": 1,
+          "test": "check the response and ieterationData should have same data",
+          "message": "\"undefined\" is not valid JSON",
+          "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:1)",
+          "checksum": "a88a292d1684e68a6db4cc15841361f7",
+          "id": "04d6a58d-609e-4017-b6ef-86cbdbc333a1",
+          "timestamp": 1766949893953,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 2,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 1,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:1 in test-script",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "a457042b-8055-45e6-91c0-5343fac402a6",
+          "length": 2,
+          "cycles": 2,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9f89ecf9-eeaf-468a-a2ce-0af46b397001",
+          "scriptId": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+          "execution": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+        }
+      },
+      {
+        "error": {
+          "type": "Error",
+          "name": "JSONError",
+          "message": "\"undefined\" is not valid JSON",
+          "checksum": "4db15f4d7d3ae61b799898db95379b99",
+          "id": "dd349df9-f6b9-4ab9-a2a2-c038d7dda252",
+          "timestamp": 1766949893954,
+          "stacktrace": []
+        },
+        "at": "test-script",
+        "source": {
+          "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+          "name": "BookCreation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json; v=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"check the status code\",function(){\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "// check the response body and ieterationData variable\r",
+                  "\r",
+                  "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                  "    \r",
+                  "    const respbody = pm.response.json();\r",
+                  "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                  "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                  "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                  "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                  "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                  "\r",
+                  "\r",
+                  "    // check the request body data and response body data should be same\r",
+                  "\r",
+                  "    const rawbody = pm.request.body.raw;\r",
+                  "//here im parsing it \r",
+                  "const requestbody = JSON.parse(rawbody);\r",
+                  "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                  "\r",
+                  "console.log(\"here is the title\", reqbodytitle);\r",
+                  "\r",
+                  "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "// here im creating the variables (local variables)\r",
+                  "\r",
+                  "const responsebody = pm.response.json();\r",
+                  "const bookID = responsebody.id;\r",
+                  "console.log(\"my book id id\", bookID);\r",
+                  "pm.variables.set(\"Book_ID\",bookID)"
+                ],
+                "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "a457042b-8055-45e6-91c0-5343fac402a6",
+          "length": 2,
+          "cycles": 2,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9f89ecf9-eeaf-468a-a2ce-0af46b397001",
+          "scriptId": "16174b24-62c9-4bd1-9fef-f445695d49e6"
+        }
+      },
+      {
+        "error": {
+          "name": "Error",
+          "message": "Invalid URI \"http:///api/v1/Books/%7B%7BBook_ID%7D%7D\"",
+          "stack": "Error: Invalid URI \"http:///api/v1/Books/%7B%7BBook_ID%7D%7D\"\n    at Request.init (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:399:31)\n    at new Request (/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js:226:8)\n    at request (/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js:46:10)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:79:23\n    at wrapper (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:273:20)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5797:24)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setCertificate (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:50:20)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:74:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at next (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5799:13)\n    at /usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:329:20\n    at setProxy (/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:31:9)\n    at /usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js:71:13\n    at nextTask (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5791:13)\n    at Object.waterfall (/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js:5802:9)",
+          "checksum": "d098983a74df8cf5edf8f6e7da05fc01",
+          "id": "ee117f7c-7788-4cb0-a7cc-5d2e59db4bdd",
+          "timestamp": 1766949893963,
+          "stacktrace": [
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 399,
+              "functionName": "Request.init",
+              "typeName": "Request",
+              "methodName": "init",
+              "columnNumber": 31,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/request.js",
+              "lineNumber": 226,
+              "functionName": "new Request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 8,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-request/index.js",
+              "lineNumber": 46,
+              "functionName": "request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 10,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 79,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 23,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 273,
+              "functionName": "wrapper",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5797,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 24,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 50,
+              "functionName": "setCertificate",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 74,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5799,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 31,
+              "functionName": "setProxy",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 9,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 71,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/usr/local/lib/node_modules/newman/node_modules/async/dist/async.js",
+              "lineNumber": 5802,
+              "functionName": "Object.waterfall",
+              "typeName": "Object",
+              "methodName": "waterfall",
+              "columnNumber": 9,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "path": [
+                "v1",
+                "Books",
+                "%7B%7BBook_ID%7D%7D"
+              ],
+              "host": [
+                "api"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "system": true
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "857c7b4b-d7d5-47dd-bad2-a3891d87e37d",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"updated_excerpt203\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ]
+              }
+            }
+          ]
+        },
+        "cursor": {
+          "ref": "e2659778-7220-4581-82bf-ea14f6ee675f",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 1,
+          "httpRequestId": "598f118a-273b-42a9-969a-5a24f2577f28"
+        }
+      },
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 0,
+          "test": "Status code is 200",
+          "message": "expected PostmanResponse{ …(5) } to have property 'code'",
+          "stack": "AssertionError: expected PostmanResponse{ …(5) } to have property 'code'\n   at Object.eval sandbox-script.js:1:2)",
+          "checksum": "169020131664477cec85b1c00a6464f6",
+          "id": "6136a671-6336-4e76-901c-c97f29f2ea59",
+          "timestamp": 1766949893967,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 1,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 2,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:0 in test-script",
+        "source": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books",
+                "{{Book_ID}}"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ],
+                "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "e2659778-7220-4581-82bf-ea14f6ee675f",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 1,
+          "httpRequestId": "598f118a-273b-42a9-969a-5a24f2577f28",
+          "scriptId": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+          "execution": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+        }
+      },
+      {
+        "error": {
+          "name": "JSONError",
+          "index": 1,
+          "test": "check excerpt should be updated",
+          "message": "\"undefined\" is not valid JSON",
+          "stack": "JSONError: \"undefined\" is not valid JSON\n   at Object.eval sandbox-script.js:2:2)",
+          "checksum": "14958418ec480fedd0fb2ef151af8bba",
+          "id": "694b9b76-ca6c-438c-aff0-0c8725e6c2f9",
+          "timestamp": 1766949893968,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 2,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 2,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:1 in test-script",
+        "source": {
+          "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+          "name": "PUT_",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "Books",
+                "{{Book_ID}}"
+              ],
+              "host": [
+                "{{baseURL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string",
+                  "value": "",
+                  "key": "token"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"check excerpt should be updated\", function(){\r",
+                  "    var responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                  "})"
+                ],
+                "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "_": {
+            "postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "exporter_id": "29508877",
+            "collection_link": "https://martian-spaceship-173711.postman.co/workspace/Mangala_25~a65329c8-7c7e-466b-a2ee-c06ea8afa2bb/collection/29508877-43a7cbb1-0880-442f-a987-97ffbbb3b943?action=share&source=collection_link&creator=29508877"
+          },
+          "item": [
+            {
+              "id": "dcf30eaa-910d-4a27-bb57-3626430abb0f",
+              "name": "BookCreation",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json; v=1.0"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": {{id}},\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"pageCount\": \"{{pageCount}}\",\r\n    \"excerpt\": \"{{excerpt}}\",\r\n    \"publishDate\": \"{{publishDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "16174b24-62c9-4bd1-9fef-f445695d49e6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"check the status code\",function(){\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "})\r",
+                      "\r",
+                      "// check the response body and ieterationData variable\r",
+                      "\r",
+                      "pm.test(\"check the response and ieterationData should have same data\",function(){\r",
+                      "    \r",
+                      "    const respbody = pm.response.json();\r",
+                      "    pm.expect(respbody.id).to.eql(pm.iterationData.get(\"id\"));\r",
+                      "    pm.expect(respbody.description).to.eql(pm.iterationData.get(\"description\"));\r",
+                      "    pm.expect(respbody.pageCount).to.eql(pm.iterationData.get(\"pageCount\"));\r",
+                      "    pm.expect(respbody.excerpt).to.eql(pm.iterationData.get(\"excerpt\"));\r",
+                      "    pm.expect(respbody.publishDate).to.eql(pm.iterationData.get(\"publishDate\"))\r",
+                      "\r",
+                      "\r",
+                      "    // check the request body data and response body data should be same\r",
+                      "\r",
+                      "    const rawbody = pm.request.body.raw;\r",
+                      "//here im parsing it \r",
+                      "const requestbody = JSON.parse(rawbody);\r",
+                      "const reqbodytitle = requestbody.title; // getting the title from request body\r",
+                      "\r",
+                      "console.log(\"here is the title\", reqbodytitle);\r",
+                      "\r",
+                      "pm.expect(respbody.title).to.eql(reqbodytitle)\r",
+                      "\r",
+                      "\r",
+                      "\r",
+                      "});\r",
+                      "\r",
+                      "\r",
+                      "// here im creating the variables (local variables)\r",
+                      "\r",
+                      "const responsebody = pm.response.json();\r",
+                      "const bookID = responsebody.id;\r",
+                      "console.log(\"my book id id\", bookID);\r",
+                      "pm.variables.set(\"Book_ID\",bookID)"
+                    ],
+                    "_lastExecutionId": "a3c2de53-2dd9-4d2f-ba43-5c0c6ec014e7"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebd84a14-fa9b-47ab-9d6e-aec09793abe6",
+              "name": "PUT_",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "Books",
+                    "{{Book_ID}}"
+                  ],
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"excerpt\":\"{{excerpt_update}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string",
+                      "value": "",
+                      "key": "token"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"check excerpt should be updated\", function(){\r",
+                      "    var responseJson = pm.response.json();\r",
+                      "    pm.expect(responseJson.excerpt).to.eq(pm.iterationData.get(\"excerpt_update\"));\r",
+                      "})"
+                    ],
+                    "_lastExecutionId": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "43a7cbb1-0880-442f-a987-97ffbbb3b943",
+            "name": "8_Practice_dataDriven",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+          }
+        },
+        "cursor": {
+          "ref": "e2659778-7220-4581-82bf-ea14f6ee675f",
+          "length": 2,
+          "cycles": 2,
+          "position": 1,
+          "iteration": 1,
+          "httpRequestId": "598f118a-273b-42a9-969a-5a24f2577f28",
+          "scriptId": "5d708112-088d-40e6-8e0c-e54c23dcd868",
+          "execution": "fcb2d224-c23c-49b6-a719-c2ef76551375"
+        }
+      }
+    ],
+    "error": null
+  }
+}
